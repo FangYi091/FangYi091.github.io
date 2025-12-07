@@ -1,11 +1,12 @@
 /* 先設定版面底圖 */
 :root{
-  --bg: #F1F3E0;
-  --text: #31694E;
-  --x: #778873;
-  --o: #A1BC98;
-  --win: #658C58;
+  --bg: #0f1226;
+  --text: #e7e8ee;
+  --x: #ff6b6b;
+  --o: #4dd0e1;
+  --win: #ffe066;
 }
+
 
 *{box-sizing:border-box;}
 html,body{height:100%;}
