@@ -60,7 +60,7 @@ function init() {
   });
 }
 
-// 點擊棋格事件
+// 處理點格子
 function onCellClick(e) {
   const idx = Number(e.currentTarget.getAttribute('data-idx'));
   place(idx);
