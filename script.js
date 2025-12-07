@@ -11,9 +11,9 @@ const scoreDrawEl = document.getElementById('score-draw');
 
 // 勝利條件（8 種）
 const WIN_LINES = [
-  [0,1,2],[3,4,5],[6,7,8], // rows
-  [0,3,6],[1,4,7],[2,5,8], // cols
-  [0,4,8],[2,4,6] // diags
+  [0,1,2],[3,4,5],[6,7,8],
+  [0,3,6],[1,4,7],[2,5,8],
+  [0,4,8],[2,4,6]
 ];
 
 // 遊戲變數
@@ -26,7 +26,7 @@ let scoreX = 0;
 let scoreO = 0;
 let scoreDraw = 0;
 
-// 產生棋格（如果你希望直接在 HTML 放 9 個 button，也可以，把這段移除）
+// 產生棋格
 function createCells() {
   boardEl.innerHTML = '';
   for (let i = 0; i < 9; i++) {
@@ -39,7 +39,7 @@ function createCells() {
   }
 }
 
-// 取得所有 cell node（注意：createCells 之後才會有）
+// 取得所有 cell node
 function getCells() {
   return Array.from(document.querySelectorAll('.cell'));
 }
@@ -60,7 +60,7 @@ function init() {
   });
 }
 
-// 處理點格子
+// 點擊棋格事件
 function onCellClick(e) {
   const idx = Number(e.currentTarget.getAttribute('data-idx'));
   place(idx);
@@ -100,21 +100,17 @@ function evaluate() {
 function endGame({ winner, line }) {
   active = false;
   const cells = getCells();
-  stateEl.classList.remove('draw'); // 先移除平手動畫 class
-
   if (winner) {
     stateEl.textContent = `${winner} 勝利！`;
     line.forEach(i => cells[i].classList.add('win'));
     if (winner === 'X') scoreX++; else scoreO++;
   } else {
     stateEl.textContent = '平手';
-    stateEl.classList.add('draw'); // 平手動畫
     scoreDraw++;
   }
   updateScoreboard();
   cells.forEach(c => c.disabled = true);
 }
-
 
 function updateScoreboard() {
   scoreXEl.textContent = scoreX;
