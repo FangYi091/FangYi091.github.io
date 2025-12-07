@@ -1,10 +1,10 @@
 /* 先設定版面底圖 */
 :root{
-  --bg: #0f1226;
-  --text: #e7e8ee;
-  --x: #ff6b6b;
-  --o: #4dd0e1;
-  --win: #ffe066;
+  --bg: #F1F3E0;
+  --text: #31694E;
+  --x: #778873;
+  --o: #A1BC98;
+  --win: #658C58;
 }
 
 *{box-sizing:border-box;}
