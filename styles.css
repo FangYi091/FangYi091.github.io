@@ -1,16 +1,30 @@
+:root{
+  --bg: #0f1226;
+  --text: #e7e8ee;
+  --x: #ff6b6b;
+  --o: #4dd0e1;
+  --win: #ffe066;
+}
 
-/* 設計棋盤 */
+*{box-sizing:border-box;}
+html, body{height:100%;}
+body{
+  margin:0;
+  font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  display:grid;
+  place-items:center;
+  padding:24px;
+}
+
+.container{ width: min(720px, 96%); text-align:center; }
+h1{ margin:0 0 16px 0; font-size:24px; }
+.status{ margin-bottom:12px; display:flex; gap:12px; justify-content:center; align-items:center; }
+.state{ margin-left:8px; }
+
+/* 棋盤 */
 .board{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap:12px;
-    background:rgba(255,255,255,0.05);
-    padding:16px;
-    border-radius:16px;
-    width:min(560px, 92%);
-    aspect-ratio:1/1;
-    box-shadow:0 8px 20px rgba(0,0,0,0.3);
-    backdrop-filter: blur(6px);
   display:grid;
   grid-template-columns: repeat(3, 1fr);
   gap:12px;
@@ -21,50 +35,8 @@
   aspect-ratio:1/1;
 }
 
-
-/* 設計棋盤格 */
-/* 棋盤格 */
+/* 棋格 */
 .cell{
-    border-radius:10px;
-    background:linear-gradient(180deg,#121430,#0e1030);
-    border:1px solid rgba(255,255,255,0.05);
-    font-size:48px;
-    font-weight:800;
-    display:grid;
-    place-items:center;
-    cursor:pointer;
-    user-select:none;
-    -webkit-tap-highlight-color:transparent;
-    transition:0.15s ease;
-}
-
-/* 滑過效果 */
-.cell:hover:not(:disabled){
-    background:#1a1d3d;
-    transform:scale(1.03);
-}
-
-/* 按下效果 */
-.cell:active:not(:disabled){
-    transform:scale(0.96);
-}
-
-/* X/O 顏色 */
-.cell.x, .cell.o{
-    animation: pop 0.2s ease;
-}
-
-@keyframes pop {
-    0% { transform:scale(0.3); opacity:0; }
-    100% { transform:scale(1); opacity:1; }
-}
-
-
-/* 獲勝格 */
-.cell.win{
-    background:var(--win);
-    color:#000;
-    transform:scale(1.05);
   border-radius:10px;
   background:linear-gradient(180deg,#121430,#0e1030);
   border:1px solid rgba(255,255,255,0.03);
@@ -77,60 +49,15 @@
   -webkit-tap-highlight-color:transparent;
   height:100%;
 }
-
 .cell.x{ color:var(--x); }
 .cell.o{ color:var(--o); }
 .cell.win{ background:var(--win); color:#000; }
 
-/* 設計計分板與按鈕 */
-.scoreboard{
-    margin-top:20px;
-    padding:16px 20px;
-    background:rgba(255,255,255,0.05);
-    border-radius:14px;
-    display:inline-block;
-    text-align:left;
-}
-
-.scoreboard h2{
-    margin:0 0 10px 0;
-    font-size:20px;
-}
-
-.controls{
-    margin-top:20px;
-    display:flex;
-    gap:12px;
-    justify-content:center;
-}
-
-/* 統一版 button */
+/* 計分板與按鈕 */
 .scoreboard{ margin-top:16px; text-align:left; display:inline-block; }
 .scoreboard h2{ margin-bottom:8px; font-size:18px; }
 .controls{ margin-top:12px; display:flex; gap:8px; justify-content:center; }
 button{
-    padding:10px 16px;
-    border-radius:10px;
-    border:0;
-    background:#21264a;
-    color:var(--text);
-    cursor:pointer;
-    font-size:15px;
-    transition:0.15s;
-}
-
-button:hover:not(:disabled){
-    background:#2f3566;
-    transform:translateY(-2px);
-}
-
-button:active:not(:disabled){
-    transform:translateY(1px);
-}
-
-button:disabled{
-    opacity:.5;
-    cursor:not-allowed;
   padding:8px 12px;
   border-radius:10px;
   border:0;
@@ -138,29 +65,4 @@ button:disabled{
   color:var(--text);
   cursor:pointer;
 }
-
 button:disabled{ opacity:.5; cursor:not-allowed; }
-
-/* 結束動畫文字 */
-.game-end {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  font-size: 64px;
-  font-weight: 900;
-  padding: 20px 40px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text);
-  text-shadow: 0 0 20px #fff;
-  z-index: 999;
-  pointer-events: none;
-  animation: pop 0.8s forwards;
-}
-
-@keyframes pop {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-}
