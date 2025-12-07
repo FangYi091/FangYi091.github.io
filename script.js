@@ -100,17 +100,21 @@ function evaluate() {
 function endGame({ winner, line }) {
   active = false;
   const cells = getCells();
+  stateEl.classList.remove('draw'); // 先移除平手動畫 class
+
   if (winner) {
     stateEl.textContent = `${winner} 勝利！`;
     line.forEach(i => cells[i].classList.add('win'));
     if (winner === 'X') scoreX++; else scoreO++;
   } else {
     stateEl.textContent = '平手';
+    stateEl.classList.add('draw'); // 平手動畫
     scoreDraw++;
   }
   updateScoreboard();
   cells.forEach(c => c.disabled = true);
 }
+
 
 function updateScoreboard() {
   scoreXEl.textContent = scoreX;
