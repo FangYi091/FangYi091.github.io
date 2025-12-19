@@ -51,11 +51,22 @@ function initGame() {
     refreshBoard();
 }
 
+let lastMoveCoord = null; // 用來記錄最後一次下棋的位置
+
+// 修改 placeDisc，在落子時記錄坐標
+function placeDisc(r, c, player, onAnimationComplete) {
+    lastMoveCoord = {r, c}; // 記錄最後位置
+    // ... 其餘原本 placeDisc 代碼不變 ...
+}
+
 function refreshBoard() {
     let black = 0, white = 0;
     document.querySelectorAll(".cell").forEach(cell => {
         const r = Number(cell.dataset.r);
         const c = Number(cell.dataset.c);
+
+        // 移除所有舊的高亮
+        cell.classList.remove("last-move");
 
         if (boardState[r][c] === 0) {
             cell.innerHTML = "";
@@ -68,6 +79,12 @@ function refreshBoard() {
         } else {
             cell.classList.remove("valid");
             cell.dataset.hint = "";
+            
+            // 加入最後落子高亮
+            if (lastMoveCoord && lastMoveCoord.r === r && lastMoveCoord.c === c) {
+                cell.classList.add("last-move");
+            }
+
             if (!cell.querySelector('.disc')) {
                 cell.innerHTML = "";
                 const color = boardState[r][c] === 1 ? "black" : "white";
@@ -78,7 +95,18 @@ function refreshBoard() {
         }
     });
 
+    // --- 更新分數與進度條 ---
     scoreText.textContent = `黑棋: ${black} | 白棋: ${white}`;
+    const total = black + white;
+    const blackPercent = (black / total) * 100;
+    const whitePercent = (white / total) * 100;
+    
+    // 確保 HTML 有這些 ID (見下方 HTML 修改)
+    if(document.getElementById("black-bar")) {
+        document.getElementById("black-bar").style.width = blackPercent + "%";
+        document.getElementById("white-bar").style.width = whitePercent + "%";
+    }
+
     statusText.textContent = currentPlayer === 1 ? "目前輪到：黑棋" : "目前輪到：白棋";
 
     if (!isAnimating && !hasAnyValidMove(1) && !hasAnyValidMove(2)) {
