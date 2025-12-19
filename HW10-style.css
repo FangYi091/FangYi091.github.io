@@ -133,6 +133,43 @@ select {
     outline: none;
 }
 
+/* --- 進度條設計 --- */
+.score-progress-container {
+    width: 100%;
+    height: 10px;
+    background: #eee;
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+    display: flex;
+}
+#black-bar {
+    height: 100%;
+    background: #333;
+    transition: width 0.5s ease;
+}
+#white-bar {
+    height: 100%;
+    background: #ccc;
+    transition: width 0.5s ease;
+}
+
+/* --- 最後落子高亮 --- */
+.last-move {
+    box-shadow: 0 0 0 3px #ffd700, 0 0 15px #ffd700 !important;
+}
+
+/* --- 鼠標懸停預覽棋子 --- */
+.cell.valid:hover::before {
+    content: "";
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2); /* 預設黑棋預覽 */
+    position: absolute;
+    pointer-events: none;
+}
+
 /* --- 獲勝畫面 Overlay --- */
 #resultOverlay {
     position: absolute;
