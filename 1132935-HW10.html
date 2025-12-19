@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW10 黑白棋 Othello</title>
+    <link rel="stylesheet" href="HW10-style.css">
+</head>
+<body>
+
+    <h1>黑白棋 Othello</h1>
+
+    <div class="container">
+        <div class="status-bar">
+            <div id="status">目前輪到：黑棋</div>
+            <div id="score">黑棋: 2 | 白棋: 2</div>
+        </div>
+
+        <div id="board">
+            <div id="resultOverlay"></div>
+        </div>
+
+        <div class="controls">
+            <label for="aiLevel">電腦棋力：</label>
+            <select id="aiLevel">
+                <option value="basic">基本</option>
+                <option value="advanced">進階</option>
+            </select>
+            <button id="restartBtn">重新開始</button>
+        </div>
+    </div>
+
+    <script src="HW10-script.js"></script>
+</body>
+</html>

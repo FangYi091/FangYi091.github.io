@@ -1,0 +1,165 @@
+/* --- 基礎背景與字體 --- */
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-align: center;
+    background: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 20px;
+}
+
+/* --- 容器與佈局 --- */
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* --- 狀態欄與分數設計 --- */
+.status-bar {
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+#status {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #4db8ff;
+}
+
+#score {
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* --- 棋盤視覺升級 --- */
+#board {
+    width: 400px;
+    height: 400px;
+    margin: 0 auto 20px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    background: #1a5e31; /* 深綠色背景 */
+    border: 8px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    position: relative;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: default;
+    perspective: 500px;
+}
+
+/* --- 提示方格微調 --- */
+.cell.valid {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.cell.valid:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.cell.valid::after {
+    content: attr(data-hint);
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-size: 10px;
+    color: rgba(255, 255, 0, 0.8);
+    font-weight: bold;
+}
+
+/* --- 棋子樣式 --- */
+.disc {
+    width: 82%;
+    height: 82%;
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+}
+.black { background: radial-gradient(circle at 30% 30%, #444, #000); }
+.white { background: radial-gradient(circle at 30% 30%, #fff, #bbb); }
+
+/* --- 按鈕設計 (Modern Style) --- */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+select, button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    box-shadow: 0 4px 0 #0056b3;
+}
+
+button:hover {
+    background: #0069d9;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 0 0;
+}
+
+select {
+    background: #333;
+    color: white;
+    outline: none;
+}
+
+/* --- 獲勝畫面 Overlay --- */
+#resultOverlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    display: none; /* 預設隱藏 */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+}
+
+.result-title {
+    font-size: 2.5rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+
+.result-score {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
