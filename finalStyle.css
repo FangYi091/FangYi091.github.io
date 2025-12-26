@@ -1,0 +1,139 @@
+/* 基礎頁面樣式 */
+body {
+    font-family: 'Microsoft JhengHei', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; margin: 0; color: #ecf0f1;
+}
+
+.game-container {
+    text-align: center; background: rgba(0, 0, 0, 0.75);
+    padding: 25px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    max-width: 500px; width: 95%;
+}
+
+/* 狀態與分數面板 */
+.status-panel { 
+    background: rgba(255, 255, 255, 0.1); padding: 15px; 
+    border-radius: 12px; margin-bottom: 20px; 
+}
+.status { 
+    font-size: 1.2em; margin-bottom: 12px; font-weight: bold; 
+    color: #f1c40f; min-height: 1.6em; 
+}
+
+.score-board { display: flex; justify-content: space-around; gap: 10px; }
+.player-score { 
+    flex: 1; padding: 10px; border-radius: 8px; 
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex; flex-direction: column; gap: 4px;
+}
+.black-score { background: rgba(0, 0, 0, 0.6); }
+.white-score { background: rgba(255, 255, 255, 0.15); }
+.stone-count { font-size: 0.85em; color: #bdc3c7; margin-top: 4px; }
+
+/* 棋盤主體 - 邊框加強 */
+#board {
+    display: grid;
+    grid-template-columns: repeat(9, 40px);
+    grid-template-rows: repeat(9, 40px);
+    margin: 0 auto 25px auto;
+    padding: 20px;
+    background: #e6b86d;
+    border: 6px solid #5d2e0d; /* 深色實木感邊框 */
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 10px 30px rgba(0,0,0,0.5);
+    width: fit-content; border-radius: 4px;
+    position: relative; user-select: none;
+}
+
+/* 格子基礎與層級：重點在於 z-index 安排 */
+.cell {
+    width: 40px; height: 40px; position: relative; cursor: pointer;
+    /* transition 使地盤顏色切換時呈現柔和的淡入淡出，解決閃爍感 */
+    transition: background-color 0.8s ease-in-out; 
+    z-index: 1;
+}
+
+/* 活棋地盤底色 (墊在 z-index 1，低於格線) */
+.cell.hint-black { background-color: rgba(0, 0, 0, 0.18) !important; }
+.cell.hint-white { background-color: rgba(255, 255, 255, 0.25) !important; }
+
+/* 格線 (z-index: 3 確保蓋在地盤提示之上) */
+.cell::before { 
+    content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; 
+    background: #000; z-index: 3; pointer-events: none;
+}
+.cell::after { 
+    content: ''; position: absolute; top: 0; left: 50%; width: 1px; height: 100%; 
+    background: #000; z-index: 3; pointer-events: none;
+}
+
+/* 邊緣修正：確保線條不超出邊界 */
+.cell[data-col="0"]::before { left: 50%; width: 50%; }
+.cell[data-col="8"]::before { width: 50%; }
+.cell[data-row="0"]::after { top: 50%; height: 50%; }
+.cell[data-row="8"]::after { height: 50%; }
+
+/* 星位 (z-index: 4) */
+.star-point {
+    width: 6px; height: 6px; background: #000; border-radius: 50%;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+    z-index: 4;
+}
+
+/* 棋子 (z-index: 10) */
+.stone {
+    width: 36px; height: 36px; border-radius: 50%; z-index: 10;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    box-shadow: 2px 3px 5px rgba(0,0,0,0.4);
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+}
+.stone.black { background: radial-gradient(circle at 30% 30%, #444, #000); }
+.stone.white { background: radial-gradient(circle at 30% 30%, #fff, #ddd); border: 1px solid #ccc; }
+
+/* 最後落子標記 */
+.stone.last-move::after {
+    content: ''; position: absolute; top: 50%; left: 50%; width: 8px; height: 8px;
+    border-radius: 50%; transform: translate(-50%, -50%); 
+    background: #ff4757; border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* 提子消失動畫 */
+.stone.captured { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+
+/* 叫吃警告與氣數標籤 */
+@keyframes atari-pulse {
+    from { box-shadow: 0 0 0 0px rgba(231, 76, 60, 0.8); }
+    to { box-shadow: 0 0 12px 6px rgba(231, 76, 60, 0); }
+}
+.atari-warning { animation: atari-pulse 0.6s infinite alternate; }
+
+.liberty-count {
+    position: absolute; bottom: 1px; right: 1px; width: 14px; height: 14px;
+    background: #ff4757; color: #fff; border-radius: 50%; font-size: 10px;
+    font-weight: bold; display: flex; justify-content: center; align-items: center;
+    z-index: 11; pointer-events: none; border: 1px solid #fff;
+}
+
+/* 落子預覽 (z-index: 8) */
+.cell:hover:not(:has(.stone))::after {
+    content: ''; width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35); 
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 8; pointer-events: none;
+}
+
+/* 控制按鈕 */
+.controls { margin-top: 10px; display: flex; justify-content: center; flex-wrap: wrap; }
+button {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: white; border: none; padding: 10px 18px;
+    margin: 5px; border-radius: 20px; font-size: 14px; font-weight: bold;
+    cursor: pointer; transition: all 0.2s;
+}
+button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(52,152,219,0.4); }
+button:active { transform: translateY(0); }
+button:disabled { background: #95a5a6; cursor: not-allowed; opacity: 0.6; }
+
+.pass-btn { background: linear-gradient(45deg, #e67e22, #d35400) !important; }
+.pass-btn:hover { box-shadow: 0 5px 15px rgba(230,126,34,0.4) !important; }

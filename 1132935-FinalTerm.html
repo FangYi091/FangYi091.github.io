@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1132935-FinalTerm</title>
+    <link rel="stylesheet" href="finalStyle.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎯 九路圍棋 </h1>
+        
+        <div class="status-panel">
+            <div class="status" id="status">🖤 黑棋先手</div>
+            <div class="score-board">
+                <div class="player-score black-score">
+                    <div>黑棋 (User)</div>
+                    <span id="blackInfo">提子: 0</span>
+                    <div id="blackCount" style="font-size: 0.8em; color: #f1c40f;">盤面: 0 子</div>
+                </div>
+                <div class="player-score white-score">
+                    <div>白棋 (AI)</div>
+                    <span id="whiteInfo">提子: 0</span>
+                    <div id="whiteCount" style="font-size: 0.8em; color: #fff;">盤面: 0 子</div>
+                </div>
+            </div>
+            <div id="passInfo">連續虛手: <span id="passCount">0</span>/2</div>
+        </div>
+
+        <div id="board"></div>
+
+        <div class="controls">
+            <button onclick="game.undoMove()" id="undoBtn">悔棋</button>
+            <button onclick="newGame()">新局</button>
+            <button class="pass-btn" onclick="game.pass()" id="passBtn">虛手 (Pass)</button>
+            <button onclick="toggleAI()" id="aiBtn">AI開關 (開)</button>
+        </div>
+        
+        <!--<div class="rules-note">
+            <h3>📜 視覺輔助說明：</h3>
+            <p>1. <b>落子預覽：</b>滑鼠移至交叉點會顯示半透明預覽棋子。</p>
+            <p>2. <b>叫吃警告：</b>棋子剩一氣時會紅光閃爍並標註剩餘氣數。</p>
+            <p>3. <b>提子動畫：</b>被吃的棋子會縮小淡出，演出更生動。</p>
+        </div>-->
+    </div>
+    <script src="finalScript.js"></script>
+</body>
+</html>
